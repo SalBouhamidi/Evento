@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+
+class Reservation extends Model
+{
+    use HasFactory;
+
+    protected $fillable =[
+        'id',
+        'total_price',
+        'user_id',
+    ];
+    public function users(){
+        return $this->belongsTo(User::class);
+    }
+    public function tickets(){
+        return $this->belongsToMany(Ticket::class, 'Reserved_tickte');
+    }
+}
