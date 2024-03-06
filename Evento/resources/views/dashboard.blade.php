@@ -1,5 +1,4 @@
 @extends('layout.navbar')
-
 @section('content')
 <!-- <h1>test</h1> -->
 
@@ -64,30 +63,44 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form enctype='multipart/form-data' action="" method="post">
+                    <form enctype='multipart/form-data' action="{{route('createEvent')}}" method="post">
+                      @csrf
                       <div class="mb-3">
                         <label  class="form-label fw-semibold">Name of your Event</label>
-                        <input type="text" class="form-control" >
+                        <input type="text"  name="name" class="form-control" >
                       </div>
 
                       <div class="mb-3">
                         <label  class="form-label fw-semibold">Description</label>
-                        <input type="text" class="form-control" >
+                        <input type="text" name="description" class="form-control" >
                       </div>
 
                       <div class="mb-3">
                         <label  class="form-label fw-semibold">Category</label>
-                        <input type="text" class="form-control" >
+                        <select name="categorie_id" class="w-100 py-2"id="status_auto">
+                        @foreach($categories as $category)
+                            <option name="categorie_id" value="{{$category->id}}">{{$category->name}}</option>
+                        @endforeach
+
+                        </select>
                       </div>
 
                       <div class="mb-3">
                         <label  class="form-label fw-semibold">Date and Time of your Event</label>
-                        <input type="datetime-local" class="form-control" >
+                        <input type="datetime-local" name="date" class="form-control" >
                       </div>
 
                       <div class="mb-3">
                         <label  class="form-label fw-semibold">Image</label>
                         <input type="file" name="image" class="form-control" >
+                      </div>
+
+                      <div class="mb-3">
+                        <label  class="form-label fw-semibold">choose your reservation method</label>
+                          <select name="status_auto" class="w-100 py-2"id="status_auto">
+                            <option value="0">Automatic Reservation Validation</option>
+                            <option value="1">Manual Reservation Validation</option>
+                          </select>
                       </div>
                       <button type="submit" class="text-light btn-popular rounded  border-0 px-5 ms-2 py-2 mb-5">Submit</button>
                     </form>
@@ -97,6 +110,8 @@
           </div>
 
     
+
+    @foreach($events as $event)
     <div class="card" style="width: 25rem;">
         <img src="..." class="card-img-top" alt="...">
         <div class="card-body">
@@ -110,6 +125,7 @@
 
         </div>
     </div>
+    @endforeach
 
 
 </section>
@@ -129,6 +145,19 @@
       color: rgba(29, 9, 56, 1);
     }
 </style>
+
+<script>
+  import Swal from 'sweetalert2'
+  Swal.fire({
+  position: "top-end",
+  icon: "success",
+  title: "Your work has been saved",
+  showConfirmButton: false,
+  timer: 1500
+});
+</script>
+
+
 
 
 

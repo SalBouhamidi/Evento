@@ -53,6 +53,8 @@ class RegisteredUserController extends Controller
         session([
                 'name'=>$user->name,
                 'role_id'=>$user->role_id,
+                'id'=>$user->id,
+
             ]);
         // dd(session());
 

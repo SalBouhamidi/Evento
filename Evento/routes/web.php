@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\CategorieController;
+
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,13 +18,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+
+Route::get('/dashboard', [EventController::class, 'index']);
+Route::post('/dashboard', [EventController::class, 'store'])->middleware(['auth', 'verified'])->name('createEvent');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -28,7 +36,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
+// Route::resource('/dashboard', 'EventController');
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
+
+// Route::get('/dashboard', [CategorieController::class, 'index']);
+
+
+
+
 
 require __DIR__.'/auth.php';
