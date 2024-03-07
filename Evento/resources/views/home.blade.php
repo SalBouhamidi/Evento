@@ -53,6 +53,11 @@
           <button type="button" class="text-light btn-popular rounded  border-0 px-2 py-2 mb-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
             Add your Event
           </button>
+          @if(session('role_id')== 3)
+            <a  href="{{route('event')}}" type="button" class="text-light text-decoration-none btn-popular rounded  border-0 px-2 py-2 mb-5">
+            Mes Evenements
+          </a>
+          @endif
 
           <!-- Modal -->
           <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -190,10 +195,6 @@
                           </div>
                         </div>
                       </div>
-
-
-
-
 
                     </div>
                    

@@ -27,9 +27,9 @@ use Illuminate\Support\Facades\Route;
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::get('/dashboard', [EventController::class, 'index'])->name('home');
-Route::post('/dashboard', [EventController::class, 'store'])->middleware(['auth', 'verified'])->name('createEvent');
-Route::put('/dashboard/{id}', [EventController::class, 'update'])->name('updateevent');
+Route::get('/home', [EventController::class, 'index'])->name('home');
+Route::post('/home', [EventController::class, 'store'])->middleware(['auth', 'verified'])->name('createEvent');
+Route::put('/home/{id}', [EventController::class, 'update'])->name('updateevent');
 Route::delete('/delete/{id}', [EventController::class, 'destroy'])->name('deleteevent');
 
 
@@ -41,6 +41,11 @@ Route::middleware('auth')->group(function () {
 
 // Route::resource('/dashboard', 'EventController');
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
+
+
+Route::get('/myevent', [EventController::class, 'viewMyEvent'])->name('event');
+
+
 
 
 

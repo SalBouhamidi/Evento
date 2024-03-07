@@ -15,28 +15,32 @@ class EventController extends Controller
      */
     public function index()
     {
-
         $categories= Categorie::get();
-        // dd($categories->event);
         $events = Event::all();
-        // $test= Event::get();
-        // dd($events[0]->categorie->name);
-        // $arr = [];
-        // foreach ($events as $ev){
-        //      $arr[] =  $ev->categorie->name;
-        // }
-        // dd($arr);
-        return view('dashboard', compact(['events', 'categories']));
+        return view('home', compact(['events', 'categories']));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function viewMyEvent()
     {
-        
+        $sessionId = session('user_id');
+        // dd($sessionId);
+        $categories= Categorie::get();
+        $Myevents = Event::where('user_id',$sessionId)->get();
+        // dd($Myevents);
+        $totalMyEvent = Event::where('user_id',$sessionId)->count();
+        $AccptedEvent = Event::where('user_id',$sessionId)
+        ->where('status_validation', '1')->count();
+        $PendingEvent = Event::where('user_id',$sessionId)
+        ->where('status_validation', '0')->count();
+
+        // dd($PendingEvent);
+        return view('myevent',compact('Myevents','categories','totalMyEvent','AccptedEvent','PendingEvent'));
 
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -74,16 +78,6 @@ class EventController extends Controller
         //
     }
 
-    // /**
-    //  * Show the form for editing the specified resource.
-    //  */
-    // public function edit(string $id)
-    // {
-    //     $event= Event::all();
-    //     $getEventById = $event->find($id);
-    //     // dd($getEventById); 
-    //     return redirect()->route('update');
-    // }
 
     /**
      * Update the specified resource in storage.
@@ -123,7 +117,6 @@ class EventController extends Controller
      */
     public function destroy(string $id)
     {
-        // dd('test');
         $getEventById = Event::find($id);
         $getEventById->delete();
         return redirect()->back();
