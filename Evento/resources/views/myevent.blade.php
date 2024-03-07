@@ -33,13 +33,94 @@
             <h5 class="card-title mt-5">{{$event->name}}</h5>
             <p class="card-text">{{$event->description}}</p>
             @if($event->status_validation == 1)
-                <button class="text-light btn-active rounded border-0 px-2 py-2 mb-2 text-decoration-none"><i class="fa-solid fa-globe"></i> Active</button>
+                <button class="text-light btn-active rounded border-0 px-2 py-2 mb-2 me-2 text-decoration-none"><i class="fa-solid fa-globe"></i> Active</button>
             @elseif($event->status_validation == 0)
-            <button href="" class="text-light btn-pending rounded border-0 px-2 py-2 mb-2 text-decoration-none"><i class="fa-solid fa-spinner"></i> Pending</button>
+            <button href="" class="text-light btn-pending rounded border-0 px-2 py-2 mb-2  me-2 text-decoration-none"><i class="fa-solid fa-spinner"></i> Pending</button>
             @endif
+
+            @if($event->status_auto == 1)
+                <button class="text-light btn-manualv rounded border-0 px-2 py-2 mb-2 text-decoration-none"><i class="fa-solid fa-check"></i> Manual validation</button>
+            @endif
+
             <div class="d-flex justify-content-between">
                 <button class="text-light btn-popular rounded border-0 px-2 py-2  mb-5">View more details</button>
-                <button class="text-light btn-popular rounded border-0 px-4 py-2  mb-5">Add/customize tickets</button>
+
+
+
+
+
+                <!-- <button class="text-light btn-popular rounded border-0 px-4 py-2  mb-5">Add/customize tickets</button> -->
+
+                                    <!-- Button trigger modal -->
+                    <button type="button" class=" text-light btn-popular rounded border-0 px-4 py-2  mb-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Add/customize tickets
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Add and costomize your tickets</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                                <form action="" method="">
+                                    <div class="tickets d-flex gap-2" id="tickets">
+                                            <div class=" mb-3">
+                                                    <label  class="form-label fw-semibold">Ticket's Name</label>
+                                                    <input type="text"  name="name"  class="name" value="" class="form-control" >
+                                            </div>
+                                            <div class="mb-3">
+                                                    <label  class="form-label fw-semibold">Ticket's price</label>
+                                                    <input type="number" step="0.01"  name="price" value="" class="form-control" >
+                                            </div>
+                                            <div class="mb-3">
+                                                    <label  class="form-label fw-semibold">Quantity</label>
+                                                    <input type="number" step="1" name="quantity" value="" class="form-control" >
+                                            </div>
+
+                                            <button type="button" onclick="add()" class="text-light btn-add-ticket rounded  border-0"><i class="fa-solid fa-plus"></i></button>
+                                            <button type="button" onclick="remove()" class="text-light btn-remove-ticket rounded  border-0 "> <i class="fa-solid fa-trash"></i> </button>
+
+                                    </div>
+                                    <button type="submit" class="text-light btn-popular rounded  border-0 px-5 ms-2 py-2 mb-5">Submit</button>
+
+
+                                </form>
+
+
+                            
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <script >
+                        var tickets = document.getElementById('tickets');
+
+                        function add(){
+                            var addTicket= document.createElement('input');
+                            newField.setAttribute('placeholder','text');
+                            newField.setAttribute('placeholder','text');
+                            newField.setAttribute('name','text');
+
+                            formfield.appendChild(tickets);
+
+
+
+                        }
+
+
+                    </script>
+
+
+
+
+
+
+
+
                     <div class="mt-2 d-flex gap-2">
                     
                         <form action="{{route('deleteevent',$event->id)}}" method="post">
@@ -121,7 +202,7 @@
 </section>
 
 <style>
-    .btn-popular, .btn-delete{
+    .btn-popular, .btn-delete, .btn-add-ticket, .btn-remove-ticket{
         background: rgba(248, 64, 208, 1);
     }
     .btn-popular:active, .btn-delete:active {
@@ -152,6 +233,9 @@
     }
     .btn-pending{
         background-color:#DC143C;
+    }
+    .btn-manualv {
+        background-color:#DB7093;
     }
 </style>
   
