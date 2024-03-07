@@ -16,15 +16,16 @@ class EventController extends Controller
     public function index()
     {
 
-        // $categories= Categorie::get();
-        // dd($categories->events);
+        $categories= Categorie::get();
+        // dd($categories->event);
         $events = Event::all();
-        // dd($events->places);
-
-        foreach($events as $event){
-            dd($event->users);
-        }
-
+        // $test= Event::get();
+        // dd($events[0]->categorie->name);
+        // $arr = [];
+        // foreach ($events as $ev){
+        //      $arr[] =  $ev->categorie->name;
+        // }
+        // dd($arr);
         return view('dashboard', compact(['events', 'categories']));
     }
 
@@ -73,20 +74,48 @@ class EventController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+    // /**
+    //  * Show the form for editing the specified resource.
+    //  */
+    // public function edit(string $id)
+    // {
+    //     $event= Event::all();
+    //     $getEventById = $event->find($id);
+    //     // dd($getEventById); 
+    //     return redirect()->route('update');
+    // }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
+         $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'categorie_id' => 'required',
+            'date' => 'required',
+            'status_auto' => 'required',
+
+        ]);
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('uploads', 'public');
+        }
+
+        $updateEvent = Event::find($id);
+
+        $updateEvent->update([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'categorie_id' => $request->input('categorie_id'),
+            'date' => $request->input('date'),
+            'status_auto' => $request->input('status_auto'),
+            'name' => $request->input('name'),
+            'image' => $imagePath,
+        ]);
+
+        return redirect()->route('home');
     }
 
     /**
@@ -94,6 +123,9 @@ class EventController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // dd('test');
+        $getEventById = Event::find($id);
+        $getEventById->delete();
+        return redirect()->back();
     }
 }

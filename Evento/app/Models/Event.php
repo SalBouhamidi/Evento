@@ -26,7 +26,7 @@ class Event extends Model
 
     ];
 
-    public function users(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -36,7 +36,7 @@ class Event extends Model
         return $this->hasMany(Ticket::class);
     }
 
-    public function categories() : BelongsTo
+    public function categorie() : BelongsTo
     {
         return $this->belongsTo(Categorie::class);
     }

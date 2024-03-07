@@ -46,7 +46,7 @@ class CategorieController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        
     }
 
     /**
@@ -54,7 +54,7 @@ class CategorieController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        
     }
 
     /**

@@ -16,12 +16,12 @@ class Place extends Model
         'event_id',
     ];
 
-    public function events(): BelongsTo
+    public function event(): BelongsTo
     {
         return $this->belongsTo(event::class);
     }
 
-    public function villes(): BelongsTo
+    public function ville(): BelongsTo
     {
         return $this->belongsTo(ville::class);
     }
