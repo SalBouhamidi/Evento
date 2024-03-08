@@ -3,7 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\CategorieController;
-
+use App\Http\Controllers\UserController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -50,6 +50,10 @@ Route::put('/home/{id}', [EventController::class, 'update'])->name('updateevent'
 Route::get('/details/{id}', [EventController::class,'eventDetails'])->name('details');
 
 Route::get('/details/reservation', [EventController::class,'reservation'])->name('reservation');
+
+Route::get('/dashboard',[UserController::class,'EventsInfo']);
+Route::get('/dashboard/accepting/{id}',[UserController::class,'acceptingEvent'])->name('validation');
+
 
 
 
