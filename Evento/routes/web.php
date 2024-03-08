@@ -49,7 +49,7 @@ Route::put('/home/{id}', [EventController::class, 'update'])->name('updateevent'
 
 Route::get('/details/{id}', [EventController::class,'eventDetails'])->name('details');
 
-
+Route::get('/details/reservation', [EventController::class,'reservation'])->name('reservation');
 
 
 

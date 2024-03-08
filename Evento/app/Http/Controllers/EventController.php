@@ -7,6 +7,8 @@ use App\Models\Event;
 use App\Models\Categorie;
 use App\Models\Ticket;
 use App\Models\Ville;
+use App\Models\Reservation;
+
 
 use Illuminate\Support\Carbon;
 // use Carbon\Carbon;
@@ -36,7 +38,18 @@ class EventController extends Controller
         return view('detailsevent', compact('eventdetails','date', 'city','ticketsofEvent'));
     }
 
-    public function reservations
+    public function reservation(Request $request){
+        $reservationobj = new Reservation;
+        $userId = session('user_id');
+        $reservationobj->user_id = $userId;
+        $reservationobj->save();
+        
+        // foreach($request->ticketname as $ticket){
+        //     $reservation
+        // }
+
+        return redirect()->route();
+    }
     /**
      * Show the form for creating a new resource.
      */
