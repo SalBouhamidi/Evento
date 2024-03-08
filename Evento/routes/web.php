@@ -30,7 +30,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/home', [EventController::class, 'index'])->name('home');
 Route::post('/home', [EventController::class, 'store'])->middleware(['auth', 'verified'])->name('createEvent');
 Route::put('/home/{id}', [EventController::class, 'update'])->name('updateevent');
-Route::delete('/delete/{id}', [EventController::class, 'destroy'])->name('deleteevent');
 
 
 Route::middleware('auth')->group(function () {
@@ -44,6 +43,16 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
 
 
 Route::get('/myevent', [EventController::class, 'viewMyEvent'])->name('event');
+Route::post('/myevent/{id}', [EventController::class, 'addTicket'])->name('addticket');
+Route::delete('/delete/{id}', [EventController::class, 'destroy'])->name('deleteevent');
+Route::put('/home/{id}', [EventController::class, 'update'])->name('updateevent');
+
+Route::get('/details/{id}', [EventController::class,'eventDetails'])->name('details');
+
+
+
+
+
 
 
 

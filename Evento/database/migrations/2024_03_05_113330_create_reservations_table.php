@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->float('total_price');
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });

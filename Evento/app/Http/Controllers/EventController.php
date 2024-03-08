@@ -5,6 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Categorie;
+use App\Models\Ticket;
+use App\Models\Ville;
+
+use Illuminate\Support\Carbon;
+// use Carbon\Carbon;
+
+
 
 
 
@@ -16,10 +23,20 @@ class EventController extends Controller
     public function index()
     {
         $categories= Categorie::get();
-        $events = Event::all();
+        // $events = Event::all();
+        $events = Event::where('status_validation', '1')->get();
         return view('home', compact(['events', 'categories']));
     }
 
+    public function eventDetails($id){
+        $eventdetails = Event::find($id);
+        $city= Ville::where('id' , $eventdetails->places[0]->ville_id)->first();
+        $date = Carbon::parse($eventdetails->date);
+        $ticketsofEvent = Ticket::where('event_id', $eventdetails->id)->get();
+        return view('detailsevent', compact('eventdetails','date', 'city','ticketsofEvent'));
+    }
+
+    public function reservations
     /**
      * Show the form for creating a new resource.
      */
@@ -29,7 +46,6 @@ class EventController extends Controller
         // dd($sessionId);
         $categories= Categorie::get();
         $Myevents = Event::where('user_id',$sessionId)->get();
-        // dd($Myevents);
         $totalMyEvent = Event::where('user_id',$sessionId)->count();
         $AccptedEvent = Event::where('user_id',$sessionId)
         ->where('status_validation', '1')->count();
@@ -38,6 +54,20 @@ class EventController extends Controller
 
         // dd($PendingEvent);
         return view('myevent',compact('Myevents','categories','totalMyEvent','AccptedEvent','PendingEvent'));
+
+    }
+
+    public function addTicket(Request $request, $id){
+        $eventId = Event::find($id);
+        $objectTicket = new Ticket;
+        $objectTicket->name = $request->name;
+        $objectTicket->quantity = $request->quantity;
+        $objectTicket->price = $request->price;
+        $objectTicket->event_id = $eventId->id;
+        // dd($objectTicket);
+        $objectTicket->timestamps = false;
+        $objectTicket->save();
+        return redirect()->back();
 
     }
 
@@ -55,7 +85,7 @@ class EventController extends Controller
         $objectModel= new Event;
         $objectModel->name = $request->name;
         $objectModel->description = $request->description;
-        $objectModel->status_validation = 1;
+        $objectModel->status_validation = 0;
         $objectModel->status_auto = $request->status_auto;
         $objectModel->status = 1;
         $objectModel->date = $request->date;
@@ -109,7 +139,7 @@ class EventController extends Controller
             'image' => $imagePath,
         ]);
 
-        return redirect()->route('home');
+        return redirect()->route('event');
     }
 
     /**
@@ -118,6 +148,7 @@ class EventController extends Controller
     public function destroy(string $id)
     {
         $getEventById = Event::find($id);
+        // dd($getEventById->id);
         $getEventById->delete();
         return redirect()->back();
     }

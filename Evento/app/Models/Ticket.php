@@ -11,6 +11,7 @@ class Ticket extends Model
 {
     use HasFactory;
     
+    public $timestamps = false;
 
     protected $fillable = [
         'id',
@@ -30,7 +31,8 @@ class Ticket extends Model
         return $this->belongsTo(Event::class);
     }
 
-    public function reservations(){
+    public function reservations()
+    {
         return $this->belongsToMany(Reservation::class, 'Reserved_tickte');
     }
 }

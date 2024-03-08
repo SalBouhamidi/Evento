@@ -22,6 +22,7 @@
     </div>
     <h3 class="mt-3">My events</h3>
 
+    
 </section>
 <section class="d-flex container">
 <div class="d-flex flex-wrap justify-content-between gap-5">
@@ -57,19 +58,20 @@
                     </button>
 
                     <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel{{$event->id}}" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Add and costomize your tickets</h1>
+                            <h1 class="modal-title fs-5" id="exampleModalLabel{{$event->id}}">Add and costomize your tickets</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                                <form action="" method="">
-                                    <div class="tickets d-flex gap-2" id="tickets">
-                                            <div class=" mb-3">
+                                <form action="{{route('addticket',$event->id)}}" method="post">
+                                    @csrf
+
+                                            <div class="mb-3">
                                                     <label  class="form-label fw-semibold">Ticket's Name</label>
-                                                    <input type="text"  name="name"  class="name" value="" class="form-control" >
+                                                    <input type="text"  name="name" value="" class="form-control" >
                                             </div>
                                             <div class="mb-3">
                                                     <label  class="form-label fw-semibold">Ticket's price</label>
@@ -79,11 +81,6 @@
                                                     <label  class="form-label fw-semibold">Quantity</label>
                                                     <input type="number" step="1" name="quantity" value="" class="form-control" >
                                             </div>
-
-                                            <button type="button" onclick="add()" class="text-light btn-add-ticket rounded  border-0"><i class="fa-solid fa-plus"></i></button>
-                                            <button type="button" onclick="remove()" class="text-light btn-remove-ticket rounded  border-0 "> <i class="fa-solid fa-trash"></i> </button>
-
-                                    </div>
                                     <button type="submit" class="text-light btn-popular rounded  border-0 px-5 ms-2 py-2 mb-5">Submit</button>
 
 
@@ -96,30 +93,7 @@
                     </div>
                     </div>
 
-                    <script >
-                        var tickets = document.getElementById('tickets');
-
-                        function add(){
-                            var addTicket= document.createElement('input');
-                            newField.setAttribute('placeholder','text');
-                            newField.setAttribute('placeholder','text');
-                            newField.setAttribute('name','text');
-
-                            formfield.appendChild(tickets);
-
-
-
-                        }
-
-
-                    </script>
-
-
-
-
-
-
-
+                
 
                     <div class="mt-2 d-flex gap-2">
                     

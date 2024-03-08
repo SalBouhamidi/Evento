@@ -13,7 +13,6 @@ class Reservation extends Model
 
     protected $fillable =[
         'id',
-        'total_price',
         'user_id',
     ];
     public function users(){

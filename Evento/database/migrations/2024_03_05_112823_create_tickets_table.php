@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->float('price');
             $table->integer('quantity');
-            $table->foreignId('event_id')->constrained();
+            $table->foreignId('event_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
