@@ -9,6 +9,8 @@ use App\Models\Ticket;
 use App\Models\Ville;
 use App\Models\Reservation;
 use App\Models\Place;
+use App\Models\Reserved_tickte;
+
 use Illuminate\Support\Carbon;
 
 
@@ -43,17 +45,38 @@ class EventController extends Controller
         return view('detailsevent', compact('eventdetails','date', 'city','ticketsofEvent'));
     }
 
-    public function reservation(Request $request){
+    public function reservation($id, Request $request){
+
+        $FindEvent = Event::find($id);
+        // dd($FindEvent);
         $reservationobj = new Reservation;
-        $userId = session('user_id');
-        $reservationobj->user_id = $userId;
+        $quantity= $request->quantity;
+        $i= 0;
+        for($i<0; $i<$quantity; $i++){
+              $userId = session('user_id');
+        $reservationobj->user_id = $userId;        
         $reservationobj->save();
+        }
+
+        $reservId = $reservationobj->id;
+        $objpivot = new Reserved_tickte;
+        $objpivot->ticket_id = $request->ticketId;
+        $objpivot->reservation_id= $request->$reservId;
+        dd($objpivot);
+
+        // dd();
+      
+
+        // dd($quantity);
+       
+
+        // dd($reservationobj);
         
         // foreach($request->ticketname as $ticket){
         //     $reservation
         // }
 
-        return redirect()->route();
+        return redirect()->back();
     }
     /**
      * Show the form for creating a new resource.
