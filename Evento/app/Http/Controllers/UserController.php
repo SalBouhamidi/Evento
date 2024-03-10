@@ -34,6 +34,13 @@ class UserController extends Controller
         return redirect()->back();
     }
 
+    public function category(Request $request){
+        $category = new Categorie();
+        $category->name = $request->category;
+        $category->save();
+        return redirect()->back();
+    }
+
 
     /**
      * Show the form for creating a new resource.

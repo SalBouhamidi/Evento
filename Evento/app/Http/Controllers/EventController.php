@@ -8,10 +8,8 @@ use App\Models\Categorie;
 use App\Models\Ticket;
 use App\Models\Ville;
 use App\Models\Reservation;
-
-
+use App\Models\Place;
 use Illuminate\Support\Carbon;
-// use Carbon\Carbon;
 
 
 
@@ -24,10 +22,17 @@ class EventController extends Controller
      */
     public function index()
     {
+
         $categories= Categorie::get();
-        // $events = Event::all();
-        $events = Event::where('status_validation', '1')->get();
-        return view('home', compact(['events', 'categories']));
+        $cities = ville::get();
+        // $events = Event::where('status_validation', '1')->get();
+        $events = Event::where('status_validation', '1')->paginate(6);
+        // foreach($events as $event){
+        //             dd($event->categorie->name);
+
+        // }
+
+        return view('home', compact(['events', 'categories','cities']));
     }
 
     public function eventDetails($id){
@@ -108,8 +113,19 @@ class EventController extends Controller
             $objectModel->image = $imagePath;
         }
         $objectModel->user_id = session('user_id');       
-        // dd($objectModel);
         $objectModel->save();
+
+        $objectVille= new Ville;
+        $objectVille->id = $request->get('city_id');
+        // $objectVille->save();
+
+        $objectPlace = new Place;
+        $objectPlace->address = $request->get('address');
+        $objectPlace->ville_id= $objectVille->id;
+        $objectPlace->event_id =$objectModel->id;
+        // dd($objectPlace);
+        $objectPlace->save();
+
         return redirect()->back();
     }
 
@@ -165,4 +181,8 @@ class EventController extends Controller
         $getEventById->delete();
         return redirect()->back();
     }
+
+
+    
+
 }

@@ -51,8 +51,18 @@ Route::get('/details/{id}', [EventController::class,'eventDetails'])->name('deta
 
 Route::get('/details/reservation', [EventController::class,'reservation'])->name('reservation');
 
+
 Route::get('/dashboard',[UserController::class,'EventsInfo']);
 Route::get('/dashboard/accepting/{id}',[UserController::class,'acceptingEvent'])->name('validation');
+Route::post('/dashboard/category', [UserController::class,'category'])->name('category');
+
+Route::get('/categories', [CategorieController::class,'index'])->name('index');
+Route::delete('/categories/{id}', [CategorieController::class,'destroy'])->name('destroy');
+Route::put('/categories/update/{id}', [CategorieController::class,'update'])->name('update');
+
+
+
+// Route::post('/details/typeoftickets',[EventController::class,'CheckTicketType'] )->name('typeoftickets');
 
 
 

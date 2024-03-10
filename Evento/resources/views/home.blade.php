@@ -91,6 +91,20 @@
                       </div>
 
                       <div class="mb-3">
+                        <label  class="form-label fw-semibold">City</label>
+                        <select name="city_id" class="w-100 py-2"id="status_auto">
+                        @foreach($cities as $city)
+                            <option name="city_id" value="{{$city->id}}">{{$city->name}}</option>
+                        @endforeach
+                        </select>
+                      </div>
+
+                      <div class="mb-3">
+                        <label  class="form-label fw-semibold">Address</label>
+                        <input type="text" name="address" class="form-control" >
+                      </div>
+
+                      <div class="mb-3">
                         <label  class="form-label fw-semibold">Date and Time of your Event</label>
                         <input type="datetime-local" name="date" class="form-control" >
                       </div>
@@ -118,7 +132,7 @@
 <div class="d-flex flex-wrap w-100 justify-content-between">
     @foreach($events as $event)
     <div class="card mb-3 h-50" style="width: 32rem;">
-        <img src="{{asset('storage/'.$event->image)}}" class="card-img-top" alt="...">
+        <img src="{{asset('storage/'.$event->image)}}" class="card-img-top img-fluid" alt="...">
         <div class="card-body">
             <a href="" class="text-light btn-category rounded border-0 px-2 py-2 text-decoration-none">{{$event->categorie->name}}</a>
             <h5 class="card-title mt-5">{{$event->name}}</h5>
@@ -131,6 +145,11 @@
     </div>
     @endforeach
   </div>
+
+<div>
+  <!-- {{$events->links()}} -->
+  </div>
+
 
 
 </section>

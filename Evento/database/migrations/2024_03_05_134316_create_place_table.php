@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Ville;
 
 return new class extends Migration
 {
@@ -11,11 +12,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('place', function (Blueprint $table) {
+        Schema::create('places', function (Blueprint $table) {
             $table->id();
             $table->text('address');
-            $table->foreignId('ville_id')->constrained();
-            $table->foreignId('event_id')->constrained();
+            $table->foreignIdFor(Ville::class)->constrained()->onUpdate('cascade')
+            ->onDelete('cascade');
+            $table->foreignId('event_id')->constrained()->onUpdate('cascade')
+            ->onDelete('cascade');
         });
     }
 
@@ -24,6 +27,14 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('place');
+
+        
+        Schema::table('places', function (Blueprint $table) {
+            $table->dropForeign(['event_id']);
+            $table->dropForeign(['ville_id']);
+            // $table->dropIfExists('places');
+        });
+        Schema::dropIfExists('places');
+
     }
 };

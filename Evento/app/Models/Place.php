@@ -10,7 +10,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Place extends Model
 {
     use HasFactory;
-    protected $table='place';
+    // protected $table='place';
+    
+    public $timestamps = false;
 
     protected $fillable = [
         'id',

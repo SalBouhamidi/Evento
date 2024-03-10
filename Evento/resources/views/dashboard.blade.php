@@ -3,17 +3,72 @@
 
 <section class="container-fluid mt-4">
 <!-- <h1>hey admin</h1> -->
-<button class="btn btn-primary  mb-5" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">More actions</button>
+                    <!-- Button trigger modal -->
+                    <button type="button" class=" text-light btn-popular fw-bold rounded border-0 px-4 py-2  mb-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Add category
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Category</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                                <form action="{{route('category')}}" method="post">
+                                    @csrf
+                                            <div class="mb-3">
+                                                    <label  class="form-label fw-semibold">Category's Name</label>
+                                                    <input type="text"  name="category" class="form-control" >
+                                            </div>
+                                    <button type="submit" class="text-light btn-popular rounded  border-0 px-5 ms-2 py-2 mb-5">Submit</button>
+
+
+                                </form>
+
+
+                            
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+<button class="btn btn-popular  text-light px-4 py-2 mb-1 fw-bold " type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">More actions</button>
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
   <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasRightLabel">Offcanvas right</h5>
+    <h5 class="offcanvas-title text-light" id="offcanvasRightLabel">More actions for you</h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body">
     ...
+<nav class="navbar navbar-expand-lg ">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav d-flex flex-column ">
+        <li class="nav-item">
+          <a class="nav-link active text-light" aria-current="page" href="{{route('index')}}">Categories</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="#">Users</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-light" href="#">Events</a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
   </div>
 </div>
+
+
 
     <h3>Statistics</h3>
 <div>
@@ -76,6 +131,13 @@
     }
     .btn-popular{
         background: rgba(248, 64, 208, 1);
+    }
+    .btn-popular:active, .btn-popular:hover {
+        background:rgb(255,255,255);
+        color:rgba(248, 64, 208, 1) !important;
+    }
+    .offcanvas-body, .offcanvas-title{
+        background:rgba(29, 9, 56, 1);
     }
 </style>
 

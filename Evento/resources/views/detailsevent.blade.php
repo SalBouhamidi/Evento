@@ -34,8 +34,8 @@
          <div class="ticket px-3">
             @foreach($ticketsofEvent as $ticket)
                 <div class="d-flex ">
-                    <p class="fw-semibold text-secondary-emphasis" name='ticketname'>{{$ticket->name}} - </p> 
-                    <p class="fw-semibold text-secondary-emphasis " id="price"> {{$ticket->price}}</p> 
+                    <p class="fw-semibold text-secondary-emphasis">{{$ticket->name}} - </p> 
+                    <p class="fw-semibold text-secondary-emphasis " id="price">{{$ticket->price}}</p> 
                  </div>
                  <div class=" ms-2 d-flex justify-content-between gap-2 mb-3">
                     <button class="btn-add text-light border-0" id="mince"   style="height:2rem"><i class="fa-solid fa-minus"></i></button>
