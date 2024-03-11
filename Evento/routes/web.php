@@ -50,6 +50,7 @@ Route::put('/home/{id}', [EventController::class, 'update'])->name('updateevent'
 Route::get('/details/{id}', [EventController::class,'eventDetails'])->name('details');
 
 Route::post('/details/reservation/{id}', [EventController::class,'reservation'])->name('reservation');
+Route::get('/generatedTicket', [CategorieController::class,'ticketGenerated'])->name('yourticket');
 
 
 Route::get('/dashboard',[UserController::class,'EventsInfo']);
@@ -59,6 +60,8 @@ Route::post('/dashboard/category', [UserController::class,'category'])->name('ca
 Route::get('/categories', [CategorieController::class,'index'])->name('index');
 Route::delete('/categories/{id}', [CategorieController::class,'destroy'])->name('destroy');
 Route::put('/categories/update/{id}', [CategorieController::class,'update'])->name('update');
+
+
 
 
 

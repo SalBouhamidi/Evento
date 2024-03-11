@@ -63,7 +63,6 @@
         background-color: rgba(29, 9, 56, 1);
       }
       .spanto{
-        /* color:rgba(240, 188, 2, 1); */
         color:rgba(248, 64, 208, 1);
       }
       .dropdown-menu{

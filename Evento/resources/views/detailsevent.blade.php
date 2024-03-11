@@ -15,6 +15,7 @@
             <i class="fa-solid fa-location-dot text-light mt-1"></i>Address: {{$eventdetails->places[0]->address}}, {{$city->name}}</p>
             <p class="text-light fw-bold ms-2 d-flex gap-3"><i class="fa-solid fa-calendar-days mt-1"></i> Date: {{$date->englishDayOfWeek}} {{$date->day}} {{$date->englishMonth}} {{$date->year}}</p>
             <p class="text-light fw-bold ms-2 d-flex gap-3"><i class="fa-solid fa-clock mt-1"></i> Hour: {{$date->hour}}:{{$date->minute}} </p>
+            <p class="text-light fw-bold ms-2 d-flex gap-3 "><i class="fa-solid fa-chair  mt-1"></i> Avialable seats : {{$seats}}</p>
         </div>
 
         <div class="bg-light mb-5 ">
@@ -53,11 +54,40 @@
 
                 <hr class="mb-3"> 
                 <p class= "fw-bold mb-3"id="Totalprice"></p>
-                <button type="submit" class="text-light btn-popular rounded  border-0 px-2 py-2 mb-5">Reserve</button>
+
+                @if($seats == 0)
+                    <p class="text-light btn-soldout rounded  border-0 px-2 py-2 mb-5 ms-4">Sold Out</p>
+
+                @else
+                     <button type="submit" class="text-light btn-popular rounded  border-0 px-2 py-2 mb-5">Reserve</button>
                 </form>
+                @endif
+
+                
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.10.6/sweetalert2.min.js" integrity="sha512-RJQj9OXEQyrPPOxSPNIXcRi61EGHulbS/SzuXw1nAyvBwYE6782rxLm/G6OKB51igh5eBoT8AUU2+K1gJxXatw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+             
+
+
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                @if(session('errorReservation'))
+                    <script>
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "error",
+                            title: "{{ session('errorReservation') }}",
+                            showConfirmButton: false,
+                            timer: 4000
+                        });
+                    </script>
+                @endif
+
+
 
 
                  <script>
+
+                
                 let mince = document.getElementById('mince');
                 let plus = document.getElementById('plus');
                 let number = document.getElementsByClassName('calculatenumber')[0];
@@ -109,6 +139,9 @@
     {
         background:rgba(255, 255, 255, 1);
         color:rgba(248, 64, 208, 1) !important;
+    }
+    .btn-soldout{
+        background-color:#DC143C;
     }
 
 </style>

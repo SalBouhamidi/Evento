@@ -9,8 +9,8 @@ use App\Models\Ticket;
 use App\Models\Ville;
 use App\Models\Reservation;
 use App\Models\Place;
+use App\Models\User;
 use App\Models\Reserved_tickte;
-
 use Illuminate\Support\Carbon;
 
 
@@ -27,13 +27,7 @@ class EventController extends Controller
 
         $categories= Categorie::get();
         $cities = ville::get();
-        // $events = Event::where('status_validation', '1')->get();
         $events = Event::where('status_validation', '1')->paginate(6);
-        // foreach($events as $event){
-        //             dd($event->categorie->name);
-
-        // }
-
         return view('home', compact(['events', 'categories','cities']));
     }
 
@@ -42,41 +36,61 @@ class EventController extends Controller
         $city= Ville::where('id' , $eventdetails->places[0]->ville_id)->first();
         $date = Carbon::parse($eventdetails->date);
         $ticketsofEvent = Ticket::where('event_id', $eventdetails->id)->get();
-        return view('detailsevent', compact('eventdetails','date', 'city','ticketsofEvent'));
+        $reserved = Reserved_tickte::where('ticket_id',$ticketsofEvent[0]->id)->count();
+        // dd($reserved);
+        $seats= $ticketsofEvent[0]->quantity - $reserved;
+
+        return view('detailsevent', compact('eventdetails','date', 'city','ticketsofEvent', 'seats'));
     }
 
     public function reservation($id, Request $request){
 
         $FindEvent = Event::find($id);
         // dd($FindEvent);
-        $reservationobj = new Reservation;
         $quantity= $request->quantity;
-        $i= 0;
-        for($i<0; $i<$quantity; $i++){
-              $userId = session('user_id');
+        $ticketsofEvent = Ticket::where('event_id', $FindEvent->id)->get();
+        $reserved = Reserved_tickte::where('ticket_id',$ticketsofEvent[0]->id)->count();
+        $seats= $ticketsofEvent[0]->quantity - $reserved;
+        // dd($quantity);
+
+        if($quantity > $seats){
+            return redirect()->back()->with('errorReservation', 'You can not reserved this quantity, avialable seats are :'. $seats);
+        }else if($quantity == $seats || $quantity< $seats)
+        {
+        $reservationobj = new Reservation;
+        $userId = session('user_id');
         $reservationobj->user_id = $userId;        
         $reservationobj->save();
-        }
 
         $reservId = $reservationobj->id;
+        $i= 0;
+        for($i<0; $i<$quantity; $i++){
+        // dd($reservId);
         $objpivot = new Reserved_tickte;
         $objpivot->ticket_id = $request->ticketId;
-        $objpivot->reservation_id= $request->$reservId;
-        dd($objpivot);
+        $objpivot->reservation_id= $reservId;
+        $objpivot->save();
+        }
 
-        // dd();
-      
+        $UserFinder = User::Find($userId);
+        $typeofticket = Ticket::find($objpivot->ticket_id);
+        $Event = Event::find($typeofticket->event_id);
+        return view('generatedticket', compact('UserFinder', 'quantity', 'objpivot', 'typeofticket', 'Event'));
+        }
 
-        // dd($quantity);
-       
 
-        // dd($reservationobj);
+
         
-        // foreach($request->ticketname as $ticket){
-        //     $reservation
-        // }
+        // dd($Event);
 
-        return redirect()->back();
+
+    }
+
+   
+
+
+    public function ticketGenerated(){
+        return view('generatedticket');
     }
     /**
      * Show the form for creating a new resource.

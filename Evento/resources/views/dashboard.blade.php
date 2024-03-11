@@ -71,14 +71,41 @@
 
 
     <h3>Statistics</h3>
-<div>
+<div class="d-flex gap-3 ms-4">
 
-        <div class="card text-white bg-primary mb-3" 
+        <div class="card text-white mb-3" 
             style="max-width: 18rem;">
-        <div class="card-header">statistiques</div>
+        <div class="card-header fw-semibold">Number of reservations:</div>
         <div class="card-body">
-            <h5 class="card-title">Primary card title</h5>
-            <p class="card-text">Some quick example [.. truncated content ..]</p>
+            <h5 class="card-title">Here's the Total number of reservations:</h5>
+            <p class="card-text">{{$satisticsReservations}}</p>
+        </div>
+        </div>
+
+        <div class="card text-white mb-3" 
+            style="max-width: 18rem;">
+        <div class="card-header fw-semibold">Number of Events:</div>
+        <div class="card-body">
+            <h5 class="card-title">Here's the Total number of events:</h5>
+            <p class="card-text">{{$satisticsEvent}}</p>
+        </div>
+        </div>
+
+        <div class="card text-white mb-3" 
+            style="max-width: 18rem;">
+        <div class="card-header fw-semibold">Number of Users:</div>
+        <div class="card-body">
+            <h5 class="card-title">Here's the Total number of users:</h5>
+            <p class="card-text">{{$satisticsUser}}</p>
+        </div>
+        </div>
+
+        <div class="card text-white mb-3" 
+            style="max-width: 18rem;">
+        <div class="card-header fw-semibold">Number of Event Organisators:</div>
+        <div class="card-body">
+            <h5 class="card-title">Here's the Total number of organisators:</h5>
+            <p class="card-text">{{$satisticsOrganisators}}</p>
         </div>
         </div>
 </div>
@@ -129,14 +156,14 @@
         color:#90EE90 !important;
         background:rgb(255,255,255);
     }
-    .btn-popular{
+    .btn-popular, .card-header, .card-body{
         background: rgba(248, 64, 208, 1);
     }
-    .btn-popular:active, .btn-popular:hover {
+    .btn-popular:active, .btn-popular:hover{
         background:rgb(255,255,255);
         color:rgba(248, 64, 208, 1) !important;
     }
-    .offcanvas-body, .offcanvas-title{
+    .offcanvas-body, .offcanvas-title, .card-body:hover{
         background:rgba(29, 9, 56, 1);
     }
 </style>

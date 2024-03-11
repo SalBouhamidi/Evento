@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Event;
 use App\Models\Categorie;
 use App\Models\Ville;
+use App\Models\Reservation;
 
 
 class UserController extends Controller
@@ -22,9 +23,16 @@ class UserController extends Controller
 
     public function EventsInfo(){
         $events = Event::where('status_validation', '0')->get();
-        // foreach ($events as $event){
-        // dd($events);
-        return view('dashboard', compact(['events']));
+        $satisticsReservations = Reservation::all()->count();
+        $satisticsEvent = Event::all()->count();
+        $satisticsUser = User::all()->count();
+        $satisticsOrganisators = User::Where('role_id','2')->count();
+
+
+
+        // dd($satisticsReservations);
+
+        return view('dashboard', compact(['events', 'satisticsReservations', 'satisticsUser', 'satisticsEvent', 'satisticsOrganisators']));
     }
     public function acceptingEvent($id){
         // dd('text');

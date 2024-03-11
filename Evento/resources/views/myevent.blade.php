@@ -175,6 +175,7 @@
   </div>
 </section>
 
+
 <style>
     .btn-popular, .btn-delete, .btn-add-ticket, .btn-remove-ticket{
         background: rgba(248, 64, 208, 1);
