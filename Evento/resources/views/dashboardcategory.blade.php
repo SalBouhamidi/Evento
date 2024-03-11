@@ -2,7 +2,7 @@
 @section('content')
 
 <section class="container">
-<h1>tedg</h1>
+<h3>here's all the categories</h3>
 <div class="d-flex flex-wrap justify-content-between">
 @foreach($categories as $category)
 

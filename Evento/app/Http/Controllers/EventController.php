@@ -12,6 +12,8 @@ use App\Models\Place;
 use App\Models\User;
 use App\Models\Reserved_tickte;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+
 
 
 
@@ -35,55 +37,87 @@ class EventController extends Controller
         $eventdetails = Event::find($id);
         $city= Ville::where('id' , $eventdetails->places[0]->ville_id)->first();
         $date = Carbon::parse($eventdetails->date);
-        $ticketsofEvent = Ticket::where('event_id', $eventdetails->id)->get();
-        $reserved = Reserved_tickte::where('ticket_id',$ticketsofEvent[0]->id)->count();
-        // dd($reserved);
-        $seats= $ticketsofEvent[0]->quantity - $reserved;
+
+        $ticketsofEvent = Ticket::where('event_id', $eventdetails->id)
+        ->get();
+        $ticketsreserved= Reserved_tickte::where('ticket_id', $ticketsofEvent[0]->id)
+        ->where('validation', 1)->count();
+        // dd($ticketsreserved);
+        $seats= $ticketsofEvent[0]->quantity - $ticketsreserved;
 
         return view('detailsevent', compact('eventdetails','date', 'city','ticketsofEvent', 'seats'));
+    }
+
+
+    public function reservationManuelle($id, Request $request){
+        $FindEvent = Event::find($id);
+        // dd($FindEvent->tickets[0]->id);
+        $DataReservation= DB::table('users')
+        ->join('events', 'users.id', '=', 'events.user_id')
+        ->join('tickets', 'tickets.event_id', '=', 'events.id')
+        ->join('reserved_ticktes', 'reserved_ticktes.ticket_id', '=' ,'tickets.id')
+        ->join('reservations', 'reserved_ticktes.reservation_id', '=', 'reservations.id')
+        ->where('reservations.validation', '0')
+        ->get();
+
+        // dd($DataReservation);
+        
+        $findReservations = Reserved_tickte::where('ticket_id', $FindEvent->tickets[0]->id)
+        ->get();
+        // dd($findReservations);
+    //    $findUser = Reservation::where('id', $findReservations[0]->reservation_id)->get();
+        return view('reservationManuelle', compact('DataReservation', 'FindEvent', 'findReservations'));
     }
 
     public function reservation($id, Request $request){
 
         $FindEvent = Event::find($id);
-        // dd($FindEvent);
         $quantity= $request->quantity;
         $ticketsofEvent = Ticket::where('event_id', $FindEvent->id)->get();
+        // $ticketsofEvent=
         $reserved = Reserved_tickte::where('ticket_id',$ticketsofEvent[0]->id)->count();
         $seats= $ticketsofEvent[0]->quantity - $reserved;
         // dd($quantity);
-
         if($quantity > $seats){
             return redirect()->back()->with('errorReservation', 'You can not reserved this quantity, avialable seats are :'. $seats);
         }else if($quantity == $seats || $quantity< $seats)
         {
-        $reservationobj = new Reservation;
-        $userId = session('user_id');
-        $reservationobj->user_id = $userId;        
-        $reservationobj->save();
+                    $reservationobj = new Reservation;
+                    $userId = session('user_id');
+                    $reservationobj->user_id = $userId;
 
-        $reservId = $reservationobj->id;
-        $i= 0;
-        for($i<0; $i<$quantity; $i++){
-        // dd($reservId);
-        $objpivot = new Reserved_tickte;
-        $objpivot->ticket_id = $request->ticketId;
-        $objpivot->reservation_id= $reservId;
-        $objpivot->save();
-        }
-
-        $UserFinder = User::Find($userId);
-        $typeofticket = Ticket::find($objpivot->ticket_id);
-        $Event = Event::find($typeofticket->event_id);
-        return view('generatedticket', compact('UserFinder', 'quantity', 'objpivot', 'typeofticket', 'Event'));
-        }
-
+                    if($FindEvent->status_auto == 1){
+                        $reservationobj->validation= 1;
+                    }elseif($FindEvent->status_auto == 0){
+                        $reservationobj->validation= 0;
+                    }
+                    $reservationobj->save();
+                    $reservId = $reservationobj->id;
+                    $i= 0;
+                    for($i<0; $i<$quantity; $i++){
+                    $objpivot = new Reserved_tickte;
+                    $objpivot->ticket_id = $request->ticketId;
+                    $objpivot->reservation_id= $reservId;
+                    if($FindEvent->status_auto == 1){
+                                $objpivot->validation= 1;
+                    }elseif($FindEvent->status_auto == 0){
+                        $objpivot->validation= 0;
+                    }
+                    $objpivot->save();
+                    }
+                    if($objpivot->validation == 1){
+                        $UserFinder = User::Find($userId);
+                        $typeofticket = Ticket::find($objpivot->ticket_id);
+                        $Event = Event::find($typeofticket->event_id);
+                    return view('generatedticket', compact('UserFinder', 'quantity', 'objpivot', 'typeofticket', 'Event'));
+                    }elseif($objpivot->validation == 0){
+                        return redirect()->back()->with('WaitingforOrg', 'Your reservation is on process, the organisator will accept it as soon as possible.
+                                                            Thank you for being patient');
+                    }
 
 
         
-        // dd($Event);
-
-
+        }
     }
 
    
@@ -102,10 +136,12 @@ class EventController extends Controller
         $categories= Categorie::get();
         $Myevents = Event::where('user_id',$sessionId)->get();
         $totalMyEvent = Event::where('user_id',$sessionId)->count();
+
         $AccptedEvent = Event::where('user_id',$sessionId)
         ->where('status_validation', '1')->count();
         $PendingEvent = Event::where('user_id',$sessionId)
         ->where('status_validation', '0')->count();
+       
 
         // dd($PendingEvent);
         return view('myevent',compact('Myevents','categories','totalMyEvent','AccptedEvent','PendingEvent'));
@@ -113,16 +149,26 @@ class EventController extends Controller
     }
 
     public function addTicket(Request $request, $id){
+       
         $eventId = Event::find($id);
-        $objectTicket = new Ticket;
-        $objectTicket->name = $request->name;
-        $objectTicket->quantity = $request->quantity;
-        $objectTicket->price = $request->price;
-        $objectTicket->event_id = $eventId->id;
-        // dd($objectTicket);
-        $objectTicket->timestamps = false;
-        $objectTicket->save();
-        return redirect()->back();
+        $findTicket = Ticket::where('event_id', $eventId->id)->first();
+        // dd(is_null($findTicket));
+
+        if(is_null($findTicket)){
+            $eventId = Event::find($id);
+            $objectTicket = new Ticket;
+            $objectTicket->name = $request->name;
+            $objectTicket->quantity = $request->quantity;
+            $objectTicket->price = $request->price;
+            $objectTicket->event_id = $eventId->id;
+            // $objectTicket->timestamps = false;
+            $objectTicket->save();
+
+            return redirect()->back()->with('success', 'ticket added successfully to your event'); 
+        }else{
+          return redirect()->back()->with('errorMessage', 'you already add ticket to this Event');
+        }
+
 
     }
 

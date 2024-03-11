@@ -24,13 +24,23 @@
 
     
 </section>
+<!-- @if(session('MessageError'))
+            <div class="alert alert-danger" role="alert">
+            {{session('MessageError')}}
+            </div>
+                @endif -->
 <section class="d-flex container">
 <div class="d-flex flex-wrap justify-content-between gap-5">
+
+
     @foreach($Myevents as $event)
     <div class="card mb-3 ms-5" style="width: 30rem;">
         <img src="{{asset('storage/'.$event->image)}}" class="card-img-top" alt="...">
         <div class="card-body">
             <a href="" class="text-light btn-category rounded border-0 px-2 py-2 text-decoration-none">{{$event->categorie->name}}</a>
+
+            
+
             <h5 class="card-title mt-5">{{$event->name}}</h5>
             <p class="card-text">{{$event->description}}</p>
             @if($event->status_validation == 1)
@@ -39,8 +49,8 @@
             <button href="" class="text-light btn-pending rounded border-0 px-2 py-2 mb-2  me-2 text-decoration-none"><i class="fa-solid fa-spinner"></i> Pending</button>
             @endif
 
-            @if($event->status_auto == 1)
-                <button class="text-light btn-manualv rounded border-0 px-2 py-2 mb-2 text-decoration-none"><i class="fa-solid fa-check"></i> Manual validation</button>
+            @if($event->status_auto == 0)
+                <a href="{{route('reservationmanuelle', $event->id)}}" class="text-light btn-manualv rounded border-0 px-2 py-2 mb-2 text-decoration-none"><i class="fa-solid fa-check"></i> Manual validation</a>
             @endif
 
             <div class="d-flex justify-content-between">
@@ -53,16 +63,20 @@
                 <!-- <button class="text-light btn-popular rounded border-0 px-4 py-2  mb-5">Add/customize tickets</button> -->
 
                                     <!-- Button trigger modal -->
-                    <button type="button" class=" text-light btn-popular rounded border-0 px-4 py-2  mb-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Add/customize tickets
+                    <button type="button" class=" text-light btn-popular rounded border-0 px-4 py-2  mb-5" data-bs-toggle="modal" data-bs-target="#exampleModal{{$event->id}}">
+                    Add/customize a ticket
                     </button>
 
                     <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel{{$event->id}}" aria-hidden="true">
+                    <div class="modal fade" id="exampleModal{{$event->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel{{$event->id}}">Add and costomize your tickets</h1>
+
+    
+
+
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Add  your ticket</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -165,15 +179,41 @@
                                 </div>
                                 </div>
                             </div>
-
                     </div>
-
             </div>
         </div>
     </div>
     @endforeach
   </div>
 </section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.10.6/sweetalert2.min.js" integrity="sha512-RJQj9OXEQyrPPOxSPNIXcRi61EGHulbS/SzuXw1nAyvBwYE6782rxLm/G6OKB51igh5eBoT8AUU2+K1gJxXatw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+@if(session('errorMessage'))
+                    <script>
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "error",
+                            title: "{{ session('errorMessage') }}",
+                            showConfirmButton: false,
+                            timer: 4000
+                        });
+                    </script>
+                @endif
+
+
+                @if(session('success'))
+                    <script>
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "{{ session('success') }}",
+                            showConfirmButton: false,
+                            timer: 4000
+                        });
+                    </script>
+                @endif
+
+
 
 
 <style>

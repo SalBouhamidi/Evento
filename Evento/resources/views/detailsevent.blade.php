@@ -33,11 +33,18 @@
          <p class= "fw-bold text-center">Selection des tickets</p>
          <hr class="mb-3">
 
+         
+            @if(session('WaitingforOrg'))
+                    <div class="alert alert-danger" role="alert">
+                            Your reservation is on process, the organisator will accept it 
+                            as soon as possible.Thank you for being patient
+                    </div>
+            @endif
+
          <form action="{{route('reservation', $eventdetails->id)}}" method= "post">
             @csrf
             @Method('POST')
          <div class="ticket px-3">
-  
             @foreach($ticketsofEvent as $ticket)
                 <div class="d-flex ">
                     <p class="fw-semibold text-secondary-emphasis">{{$ticket->name}}: </p> 
@@ -69,7 +76,6 @@
              
 
 
-                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                 @if(session('errorReservation'))
                     <script>
                         Swal.fire({
@@ -81,9 +87,6 @@
                         });
                     </script>
                 @endif
-
-
-
 
                  <script>
 

@@ -117,8 +117,8 @@
                       <div class="mb-3">
                         <label  class="form-label fw-semibold">choose your reservation method</label>
                           <select name="status_auto" class="w-100 py-2"id="status_auto">
-                            <option value="0">Automatic Reservation Validation</option>
-                            <option value="1">Manual Reservation Validation</option>
+                            <option value="1">Automatic Reservation Validation</option>
+                            <option value="0">Manual Reservation Validation</option>
                           </select>
                       </div>
                       <button type="submit" class="text-light btn-popular rounded  border-0 px-5 ms-2 py-2 mb-5">Submit</button>
@@ -153,6 +153,17 @@
 
 
 </section>
+
+<script >
+    $('#search').on('keyup', function(){
+          // alert('hello');
+      $value = $(this).val();
+      $.ajax({
+        
+      })
+    })
+
+</script>
 
 <style>
     .btn-popular, .btn-delete{

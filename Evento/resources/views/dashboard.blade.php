@@ -55,7 +55,7 @@
           <a class="nav-link active text-light" aria-current="page" href="{{route('index')}}">Categories</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-light" href="#">Users</a>
+          <a class="nav-link text-light" href="{{route('dashbordusers')}}">Users</a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-light" href="#">Events</a>

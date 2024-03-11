@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reserved_ticktes', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('reservation_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('ticket_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-
+        Schema::table('reserved_ticktes', function (Blueprint $table) {
+            $table->boolean('validation')->nullable();
         });
     }
 
@@ -24,6 +21,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reserved_ticktes');
+        Schema::table('reserved_ticktes', function (Blueprint $table) {
+            $table->dropColumn('validation');
+
+        });
     }
 };
