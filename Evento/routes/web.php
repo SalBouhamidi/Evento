@@ -51,6 +51,10 @@ Route::get('/details/{id}', [EventController::class,'eventDetails'])->name('deta
 
 Route::post('/details/reservation/{id}', [EventController::class,'reservation'])->name('reservation');
 Route::get('/details/reservation/manuel/{id}', [EventController::class,'reservationManuelleInfo'])->name('reservationmanuelle');
+Route::get('/details/reservation/manuel/acceptreservation/{id}', [EventController::class,'acceptReservation'])->name('acceptReservation');
+Route::get('/search', [EventController::class, 'search']);
+Route::get('/catgory/search', [EventController::class, 'searchCategorie'])->name('categorysearch');
+
 
 Route::get('/generatedTicket', [CategorieController::class,'ticketGenerated'])->name('yourticket');
 

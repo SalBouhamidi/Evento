@@ -48,15 +48,18 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
          Auth::login($user);
-        // dd(Auth::login($user));
-    
-        session([
-                'name'=>$user->name,
-                'role_id'=>$user->role_id,
-                'id'=>$user->id,
+
+         
+            $request->session()->put([
+                'user_id'=> $user->id,
+                'role_id'=> $user->role_id,
+                'name'=> $user->name
 
             ]);
-        // dd(session());
+        
+            
+            // dd(session('user_id'));
+
 
         return redirect(RouteServiceProvider::HOME);
     }

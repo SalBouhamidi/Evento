@@ -154,16 +154,7 @@
 
 </section>
 
-<script >
-    $('#search').on('keyup', function(){
-          // alert('hello');
-      $value = $(this).val();
-      $.ajax({
-        
-      })
-    })
 
-</script>
 
 <style>
     .btn-popular, .btn-delete{

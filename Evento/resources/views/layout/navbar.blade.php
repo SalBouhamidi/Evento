@@ -32,9 +32,9 @@
                             <a class="nav-link disabled text-light" aria-disabled="true">Disabled</a>
                           </li>
                         </ul>
-                        <form class="d-flex me-5" role="search">
-                          <input class="form-control me-2" type="search" name="search" id="search" placeholder="Search" aria-label="Search">
-                          <button class="btn btn-outline-light" type="submit">Search</button>
+                        <form class="d-flex" role="search" action ="{{url ('/search')}}" type="get">
+                            <input class="form-control me-2" type="search" id="myInput" name="search"placeholder="Search by Event name" aria-label="Search">
+                            <button class="btn btn-outline-light" type="submit">Search</button>
                         </form>
 
                         <div class="dropdown">

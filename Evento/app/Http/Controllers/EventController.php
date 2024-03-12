@@ -252,6 +252,28 @@ class EventController extends Controller
         return redirect()->route('event');
     }
 
+    public function search()
+    {
+        $categories= Categorie::all();
+        $search_event = $_GET['search'];
+        $results = Event::where('name', 'LIKE', '%' . $search_event . '%')->get();
+        return view('search', compact('results','categories'));
+    }
+    public function searchCategorie(Request $request){
+        $categories = Categorie::all();
+        $categoryId = $request->input('category');
+        if($categoryId){
+            $events= Event::where('categorie_id',$categoryId)->get();
+            // dd($events);
+            if($events->isNotEmpty()){
+                return view('searchCategory', compact('events'));
+            }else{
+                return redirect()->back()->with('ErrorMessage', 'No event in this category');
+            }
+
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      */
