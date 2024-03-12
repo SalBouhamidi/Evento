@@ -13,14 +13,14 @@
 <body>
       <nav class="navbar navbar-expand-lg ">
           <div class="container-fluid ms-5">
-              <a class="navbar-brand fw-bold text-light me-5" href="#">Even<span class="spanto">to</span></a>
+              <a class="navbar-brand fw-bold text-light me-5" href="{{route('home')}}">Even<span class="spanto">to</span></a>
                   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                   </button>
               <div class="collapse navbar-collapse me-5" id="navbarSupportedContent">
                       <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
                           <li class="nav-item ">
-                            <a class="nav-link active text-light" aria-current="page" href="#">Home</a>
+                            <a class="nav-link active text-light" aria-current="page" href="{{route('home')}}">Home</a>
                           </li>
                           <li class="nav-item ">
                             <a class="nav-link active text-light" aria-current="page" href="#">Add Event</a>

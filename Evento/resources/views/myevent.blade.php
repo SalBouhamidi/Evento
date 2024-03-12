@@ -7,15 +7,11 @@
             <p class="fw-bold text-light h-25">Number of my events: {{$totalMyEvent}}</p>
         </div>
 
-        <div class="statistique-event px-3 py-5 rounded">
-            <p class="fw-bold text-light h-25">Number of reservation: 200</p>
-        </div>
-
-        <div class="statistique-event px-3 py-5 rounded">
+        <div class="statistique-event px-5 py-5 rounded">
             <p class="fw-bold text-light h-25">Approved Events: {{$AccptedEvent}}</p>
         </div>
 
-        <div class="statistique-event px-3 py-5 rounded">
+        <div class="statistique-event px-5 py-5 rounded">
             <p class="fw-bold text-light h-25">Pending Events: {{$PendingEvent}}</p>
         </div>
 
@@ -24,11 +20,7 @@
 
     
 </section>
-<!-- @if(session('MessageError'))
-            <div class="alert alert-danger" role="alert">
-            {{session('MessageError')}}
-            </div>
-                @endif -->
+
 <section class="d-flex container">
 <div class="d-flex flex-wrap justify-content-between gap-5">
 
@@ -40,7 +32,6 @@
             <a href="" class="text-light btn-category rounded border-0 px-2 py-2 text-decoration-none">{{$event->categorie->name}}</a>
 
             
-
             <h5 class="card-title mt-5">{{$event->name}}</h5>
             <p class="card-text">{{$event->description}}</p>
             @if($event->status_validation == 1)

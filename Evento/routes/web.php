@@ -28,8 +28,6 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/home', [EventController::class, 'index'])->name('home');
-Route::post('/home', [EventController::class, 'store'])->middleware(['auth', 'verified'])->name('createEvent');
-Route::put('/home/{id}', [EventController::class, 'update'])->name('updateevent');
 
 
 Route::middleware('auth')->group(function () {
@@ -41,36 +39,40 @@ Route::middleware('auth')->group(function () {
 // Route::resource('/dashboard', 'EventController');
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy']);
 
-
+Route::middleware('role_id:2')->group(function(){
 Route::get('/myevent', [EventController::class, 'viewMyEvent'])->name('event');
 Route::post('/myevent/{id}', [EventController::class, 'addTicket'])->name('addticket');
-Route::delete('/delete/{id}', [EventController::class, 'destroy'])->name('deleteevent');
+Route::delete('/delete/{id}', [EventController::class, 'destroy'])->name('deleteevent')->middleware('auth');
+Route::put('/home/{id}', [EventController::class, 'update'])->name('updateevent')->middleware('auth');
+Route::get('/details/reservation/manuel/acceptreservation/{id}', [EventController::class,'acceptReservation'])->name('acceptReservation')->middleware('auth');
+Route::get('/details/reservation/manuel/{id}', [EventController::class,'reservationManuelleInfo'])->name('reservationmanuelle')->middleware('auth');
 Route::put('/home/{id}', [EventController::class, 'update'])->name('updateevent');
 
-Route::get('/details/{id}', [EventController::class,'eventDetails'])->name('details');
 
-Route::post('/details/reservation/{id}', [EventController::class,'reservation'])->name('reservation');
-Route::get('/details/reservation/manuel/{id}', [EventController::class,'reservationManuelleInfo'])->name('reservationmanuelle');
-Route::get('/details/reservation/manuel/acceptreservation/{id}', [EventController::class,'acceptReservation'])->name('acceptReservation');
+});
+Route::post('/home', [EventController::class, 'store'])->middleware(['auth', 'verified'])->name('createEvent')->middleware('auth');
+
+Route::middleware('role_id:3')->group(function(){
+Route::post('/details/reservation/{id}', [EventController::class,'reservation'])->name('reservation')->middleware('auth');
 Route::get('/search', [EventController::class, 'search']);
 Route::get('/catgory/search', [EventController::class, 'searchCategorie'])->name('categorysearch');
-
-
-Route::get('/generatedTicket', [CategorieController::class,'ticketGenerated'])->name('yourticket');
-
-
-Route::get('/dashboard',[UserController::class,'EventsInfo']);
-Route::get('/dashboard/accepting/{id}',[UserController::class,'acceptingEvent'])->name('validation');
-Route::post('/dashboard/category', [UserController::class,'category'])->name('category');
-Route::get('/dashoard/users', [UserController::class, 'index'])->name('dashbordusers');
-
-Route::put('/dashoard/users/{id}', [UserController::class, 'updateRole'])->name('updaterole');
+Route::get('/details/{id}', [EventController::class,'eventDetails'])->name('details')->middleware('auth');
+Route::get('/generatedTicket', [CategorieController::class,'ticketGenerated'])->name('yourticket')->middleware('auth');
+});
 
 
 
-Route::get('/categories', [CategorieController::class,'index'])->name('index');
-Route::delete('/categories/{id}', [CategorieController::class,'destroy'])->name('destroy');
-Route::put('/categories/update/{id}', [CategorieController::class,'update'])->name('update');
+Route::middleware('role_id:1')->group(function(){
+    Route::get('/dashboard',[UserController::class,'EventsInfo'])->middleware('auth');
+    Route::get('/dashboard/accepting/{id}',[UserController::class,'acceptingEvent'])->name('validation')->middleware('auth');
+    Route::post('/dashboard/category', [UserController::class,'category'])->name('category')->middleware('auth');
+    Route::get('/dashoard/users', [UserController::class, 'index'])->name('dashbordusers')->middleware('auth');
+    Route::put('/dashoard/users/{id}', [UserController::class, 'updateRole'])->name('updaterole')->middleware('auth');
+    Route::get('/categories', [CategorieController::class,'index'])->name('index')->middleware('auth');
+    Route::delete('/categories/{id}', [CategorieController::class,'destroy'])->name('destroy')->middleware('auth');
+    Route::put('/categories/update/{id}', [CategorieController::class,'update'])->name('update')->middleware('auth');
+});
+
 
 
 
