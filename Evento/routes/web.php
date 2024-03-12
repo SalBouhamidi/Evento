@@ -50,7 +50,7 @@ Route::put('/home/{id}', [EventController::class, 'update'])->name('updateevent'
 Route::get('/details/{id}', [EventController::class,'eventDetails'])->name('details');
 
 Route::post('/details/reservation/{id}', [EventController::class,'reservation'])->name('reservation');
-Route::get('/details/reservation/manuel/{id}', [EventController::class,'reservationManuelle'])->name('reservationmanuelle');
+Route::get('/details/reservation/manuel/{id}', [EventController::class,'reservationManuelleInfo'])->name('reservationmanuelle');
 
 Route::get('/generatedTicket', [CategorieController::class,'ticketGenerated'])->name('yourticket');
 

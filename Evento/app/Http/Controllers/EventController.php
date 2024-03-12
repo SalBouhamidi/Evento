@@ -49,7 +49,7 @@ class EventController extends Controller
     }
 
 
-    public function reservationManuelle($id, Request $request){
+    public function reservationManuelleInfo($id, Request $request){
         $FindEvent = Event::find($id);
         // dd($FindEvent->tickets[0]->id);
         $DataReservation= DB::table('users')
@@ -58,15 +58,15 @@ class EventController extends Controller
         ->join('reserved_ticktes', 'reserved_ticktes.ticket_id', '=' ,'tickets.id')
         ->join('reservations', 'reserved_ticktes.reservation_id', '=', 'reservations.id')
         ->where('reservations.validation', '0')
-        ->get();
+        ->select('events.*', 'tickets.name as Tname', 'reservations.id', 'users.name' )
+        ->get();  
+        return view('reservationManuelle', compact('DataReservation', 'FindEvent'));
+    }
+    public function acceptReservation($id){
+        $reservation = Reservation::where('id', $id)->update(['validation' => 1]);
+        $reservedticket = Reserved_tickte::where('reservation_id', $id)->update(['validation' => 1]);
+        return redirect()->back()->with('success', 'the ticket has been updated');
 
-        // dd($DataReservation);
-        
-        $findReservations = Reserved_tickte::where('ticket_id', $FindEvent->tickets[0]->id)
-        ->get();
-        // dd($findReservations);
-    //    $findUser = Reservation::where('id', $findReservations[0]->reservation_id)->get();
-        return view('reservationManuelle', compact('DataReservation', 'FindEvent', 'findReservations'));
     }
 
     public function reservation($id, Request $request){
@@ -74,7 +74,6 @@ class EventController extends Controller
         $FindEvent = Event::find($id);
         $quantity= $request->quantity;
         $ticketsofEvent = Ticket::where('event_id', $FindEvent->id)->get();
-        // $ticketsofEvent=
         $reserved = Reserved_tickte::where('ticket_id',$ticketsofEvent[0]->id)->count();
         $seats= $ticketsofEvent[0]->quantity - $reserved;
         // dd($quantity);
@@ -120,7 +119,6 @@ class EventController extends Controller
         }
     }
 
-   
 
 
     public function ticketGenerated(){
